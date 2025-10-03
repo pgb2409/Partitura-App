@@ -16,10 +16,12 @@ function reproducirAudio() {
   }
 
   audio = new Audio(url);
-  audio.play();
+  audio.play().catch(error => {
+    alert('No se pudo reproducir el audio: ' + error.message);
+  });
 }
 
-function cargarMusicXML() {
+function cargarPartitura() {
   const input = document.getElementById('musicxmlInput');
   if (input.files.length === 0) {
     alert('Selecciona un archivo MusicXML.');
@@ -41,7 +43,6 @@ function mostrarPartitura(xmlText) {
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   ctx.font = '16px Segoe UI';
   ctx.fillStyle = '#2c3e50';
   ctx.fillText('Partitura cargada desde MusicXML:', 20, 40);
