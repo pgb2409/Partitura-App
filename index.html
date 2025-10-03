@@ -1,77 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Partitura de batería</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <h1>🥁 Partitura de batería</h1>
-
-  <p>📦 <a href="#">Descargar conversor MusicXML (ZIP)</a></p>
-  <p>🐍 <a href="#">Descargar Python (requerido)</a></p>
-
-  <p>Para convertir tu archivo de audio en partitura MusicXML desde tu ordenador:</p>
-  <ol>
-    <li>Descarga el conversor libre y Python</li>
-    <li>Instálalos localmente siguiendo las instrucciones del repositorio</li>
-    <li>Ejecuta el script para generar el archivo <code>.musicxml</code></li>
-    <li>Carga el archivo aquí para visualizarlo</li>
-  </ol>
-
-  <p>No se ha seleccionado ningún archivo</p>
-  <button>📄 Cargar MusicXML</button>
-
-  <p>No se ha seleccionado ningún archivo</p>
-  <button>🎵 Reproducir audio</button>
-
-  <!-- 🔽 Conversor MP3 → MusicXML en línea -->
-  <section id="convertidor" style="margin-top: 40px; padding: 20px; border: 1px solid #ccc;">
-    <h2>🎵 Convertir MP3 a MusicXML directamente en la web</h2>
-    <form id="uploadForm">
-      <input type="file" name="file" accept=".mp3" required />
-      <button type="submit">Convertir</button>
-    </form>
-    <p id="status" style="margin-top: 10px;"></p>
-  </section>
-
-  <script>
-    const form = document.getElementById('uploadForm');
-    const status = document.getElementById('status');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const fileInput = form.querySelector('input[type="file"]');
-      const file = fileInput.files[0];
-      if (!file) return;
-
-      status.textContent = "⏳ Procesando archivo...";
-
-      const formData = new FormData();
-      formData.append("file", file);
-
-      try {
-        const response = await fetch("https://backend-conversor-51sa.onrender.com/convert", {
-          method: "POST",
-          body: formData
-        });
-
-        if (!response.ok) throw new Error("Error en el servidor");
-
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "resultado.musicxml";
-        a.click();
-        status.textContent = "✅ Conversión completada. Archivo descargado.";
-      } catch (err) {
-        status.textContent = "❌ Error: " + err.message;
-      }
-    });
-  </script>
-  <section id="convertidor" style="margin-top: 40px; padding: 20px; border: 1px solid #ccc;">
+<section id="convertidor" style="margin-top: 40px; padding: 20px; border: 1px solid #ccc;">
   <h2>🎵 Convertir MP3 a MusicXML directamente en la web</h2>
   <form id="uploadForm">
     <input type="file" name="file" accept=".mp3" required />
@@ -115,6 +42,3 @@
     }
   });
 </script>
-</body>
-</html>
-
