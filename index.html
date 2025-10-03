@@ -3,38 +3,34 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Partitura Batería</title>
+  <title>Partitura de batería</title>
   <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
 </head>
 <body>
-  <h1>Partitura de Batería</h1>
+  <h1>🥁 Partitura de batería</h1>
 
-  <div class="bloque">
-    <label for="audioInput">🎵 Subir canción (audio):</label>
-    <input type="file" id="audioInput" accept="audio/*" />
-    <button onclick="reproducirAudio()">Reproducir</button>
-  </div>
+  <!-- Botón para convertir audio en partitura -->
+  <button onclick="window.open('https://klang.io/drum2notes/', '_blank')">
+    🎧 Convertir audio a partitura de batería
+  </button>
 
-  <div class="bloque">
-    <label for="musicxmlInput">📄 Cargar partitura MusicXML:</label>
+  <p style="font-size: 0.9em;">
+    Usa <strong>Drum2Notes</strong> para convertir tu audio en partitura. Descarga el archivo <code>.musicxml</code> y cárgalo aquí.
+  </p>
+
+  <!-- Entrada para cargar archivo MusicXML -->
   <input type="file" id="musicxmlInput" accept=".musicxml" />
-<button onclick="cargarPartitura()">📄 Cargar MusicXML</button>
+  <button onclick="cargarPartitura()">📄 Cargar MusicXML</button>
 
-  </div>
-<button onclick="window.open('https://klang.io/drum2notes/', '_blank')">
-  🎧 Convertir audio a partitura de batería
-</button>
-<p style="font-size: 0.9em;">
-  ¿Tienes un audio de batería? Usa <strong>Drum2Notes</strong> para convertirlo en partitura. 
-  Descarga el archivo en formato <code>.musicxml</code> y cárgalo aquí para visualizarlo.
-</p>
+  <!-- Entrada para reproducir audio -->
+  <input type="file" id="audioInput" accept="audio/*" />
+  <button onclick="reproducirAudio()">🎵 Reproducir audio</button>
 
-  <canvas id="canvas" width="800" height="400"></canvas>
+  <!-- Canvas para mostrar la partitura -->
+  <canvas id="canvas" width="800" height="400" style="border:1px solid #ccc;"></canvas>
 
+  <!-- Enlace al script -->
   <script src="script.js"></script>
-  <audio id="audioPlayer" controls style="display:none;"></audio>
 </body>
 </html>
-
-
-
