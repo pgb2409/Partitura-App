@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Partitura Batería</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Partitura de Batería</h1>
+
+  <div class="bloque">
+    <label for="audioInput">🎵 Subir canción (audio):</label>
+    <input type="file" id="audioInput" accept="audio/*" />
+    <button onclick="reproducirAudio()">Reproducir</button>
+  </div>
+
+  <div class="bloque">
+    <label for="musicxmlInput">📄 Cargar partitura MusicXML:</label>
+    <input type="file" id="musicxmlInput" accept=".musicxml,.xml" />
+    <button onclick="cargarMusicXML()">Mostrar partitura</button>
+  </div>
+
+  <canvas id="canvas" width="800" height="400"></canvas>
+
+  <script src="script.js"></script>
+</body>
+</html>
