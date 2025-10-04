@@ -4,10 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 1. DECLARACIÓN DE VARIABLES Y REFERENCIAS ---
     const fileInput = document.getElementById('mp3FileInput');
     const selectButton = document.getElementById('selectFileButton');
-    const convertButton = document.getElementById('convertButton'); // Botón de Partitura
+    const convertButton = document.getElementById('convertButton');
     const fileNameDisplay = document.getElementById('fileNameDisplay');
     const visorCanvas = document.getElementById('visor-canvas');
 
+    // VARIABLE CLAVE: La definimos aquí para que sea visible en todo el script.
     let selectedFile = null;
 
     // *** ASEGÚRATE DE QUE ESTA URL SEA LA CORRECTA DE RENDER ***
@@ -16,17 +17,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 2. GESTIÓN DE LA CARGA DE ARCHIVOS (Botón Seleccionar MP3) ---
 
-    // Conexión del botón visible al input oculto (ya resuelto)
+    // Conexión del botón visible al input oculto
     selectButton.addEventListener('click', () => {
         fileInput.click();
     });
 
-    // Habilitar/Deshabilitar el botón "Convertir a Partitura"
+    // Lógica que habilita el botón y GUARDA el archivo en la variable seleccionada
     fileInput.addEventListener('change', (event) => {
         if (event.target.files.length > 0) {
-            selectedFile = event.target.files[0];
+            // LÍNEA CLAVE: El archivo se guarda aquí
+            selectedFile = event.target.files[0]; 
             fileNameDisplay.textContent = `Archivo seleccionado: ${selectedFile.name}`;
-            convertButton.disabled = false; // HABILITACIÓN CLAVE
+            convertButton.disabled = false; 
         } else {
             selectedFile = null;
             fileNameDisplay.textContent = 'Esperando archivo...';
@@ -38,16 +40,15 @@ document.addEventListener('DOMContentLoaded', () => {
     fileNameDisplay.textContent = 'Listo para subir un archivo.';
 
 
-    // --- 3. LÓGICA DEL BOTÓN "CONVERTIR A PARTITURA" ---
+    // --- 3. LÓGICA DEL BOTÓN "CONVERTIR A PARTITURA" (El que no funcionaba) ---
 
-    // Asigna el evento 'click' al botón de conversión
+    // Asigna el evento 'click' que verifica si el archivo existe y lo envía
     convertButton.addEventListener('click', () => {
-        if (selectedFile) {
-            // Llama a la función de envío (que está definida más abajo)
+        // La condición es: si la variable 'selectedFile' tiene un archivo, envíalo.
+        if (selectedFile) { 
             convertToMusicXml(); 
         } else {
-            // Esto no debería suceder si el botón está deshabilitado
-            alert("Por favor, selecciona un archivo MP3 primero.");
+            alert("Error interno: selectedFile está vacío.");
         }
     });
 
@@ -60,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         visorCanvas.innerHTML = '<p>Enviando archivo al backend y esperando análisis...</p>';
 
         const formData = new FormData();
+        // Aquí usamos la variable que se guardó en el paso 2
         formData.append('mp3File', selectedFile); 
 
         try {
@@ -69,8 +71,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (!response.ok) {
+                let statusText = response.statusText ? `: ${response.statusText}` : '';
                 let errorMessage = await response.text();
-                throw new Error(`Error HTTP: ${response.status}. Mensaje del servidor: ${errorMessage.substring(0, 100)}...`);
+                throw new Error(`Error HTTP: ${response.status}${statusText}. Mensaje del servidor: ${errorMessage.substring(0, 100)}...`);
             }
 
             const xmlText = await response.text();
@@ -100,11 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             osmd.load(xmlContent).then(function() {
                 osmd.render(); 
-                visorCanvas.insertAdjacentHTML('afterbegin', '<p style="color: green;">Partitura cargada correctamente (renderizado gráfico).</p>');
+                visorCanvas.insertAdjacentHTML('afterbegin', '<p style="color: green;">Partitura cargada correctamente.</p>');
 
             }).catch(error => {
-                visorCanvas.innerHTML = `<p style="color: orange;">El XML es sintácticamente correcto pero inválido para MusicXML (verifique el backend).</p>
-                                         <pre style="white-space: pre-wrap; word-wrap: break-word; font-size: 0.8em;">Contenido XML: ${xmlContent.substring(0, 500)}...</pre>`;
+                visorCanvas.innerHTML = `<p style="color: orange;">El XML es sintácticamente correcto pero el visor OSMD ha fallado.</p>`;
                 console.error("Error al renderizar con OSMD:", error);
             });
 
