@@ -2,7 +2,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. DECLARACIÓN DE VARIABLES Y REFERENCIAS ---
-    // Usamos ID para referenciar los elementos que vamos a manipular
     const convertButton = document.getElementById('convertButton');
     const fileNameDisplay = document.getElementById('fileNameDisplay');
     const visorCanvas = document.getElementById('visor-canvas');
@@ -16,21 +15,24 @@ document.addEventListener('DOMContentLoaded', () => {
     fileNameDisplay.textContent = 'Listo para subir un archivo.';
 
 
-    // --- 2. GESTIÓN DE LA CARGA DE ARCHIVOS (Soluciona el botón "muerto") ---
+    // --- 2. GESTIÓN DE LA CARGA DE ARCHIVOS (Conexión Directa y Habilitación) ---
 
-    // CONEXIÓN CLAVE: Capturamos el input de archivo por su ID, NO TOCAR
+    // CONEXIÓN CLAVE: Captura el archivo seleccionado
     document.getElementById('mp3FileInput').addEventListener('change', (event) => {
         
         // Verificamos si SÍ se seleccionó un archivo
         if (event.target.files && event.target.files.length > 0) {
             
-            // LÍNEA CLAVE: El archivo se guarda
+            // El archivo se guarda
             selectedFile = event.target.files[0]; 
             fileNameDisplay.textContent = `Archivo seleccionado: ${selectedFile.name}`;
             
             // **********************************************
-            // SOLUCIÓN: HABILITAR EL BOTÓN DE CONVERSIÓN
-            convertButton.disabled = false; 
+            // SOLUCIÓN FINAL: HABILITAR CON RETRASO 
+            // Esto asegura que la propiedad 'disabled' se actualice correctamente.
+            setTimeout(() => {
+                 convertButton.disabled = false;
+            }, 50); 
             // **********************************************
             
         } else {
@@ -48,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (selectedFile) { 
             convertToMusicXml(); 
         } else {
+            // Este alerta solo se dispara si el botón estaba habilitado sin archivo (error)
             alert("Error: No hay un archivo seleccionado. Recargue la página si el botón está activo sin archivo.");
         }
     });
@@ -96,6 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderMusicXml(xmlContent) {
         
         function tryRender() {
+            // Verifica si la librería se cargó localmente
             if (typeof OpenSheetMusicDisplay !== 'undefined') {
                 
                 visorCanvas.innerHTML = ''; 
@@ -107,10 +111,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     osmd.load(xmlContent).then(function() {
                         osmd.render(); 
-                        visorCanvas.insertAdjacentHTML('afterbegin', '<p style="color: green;">Partitura cargada correctamente. (Ahora verificamos el procesamiento de Python).</p>');
+                        visorCanvas.insertAdjacentHTML('afterbegin', '<p style="color: green;">Partitura cargada correctamente. ¡El frontend funciona! Ahora verificamos el procesamiento de Python.</p>');
 
                     }).catch(error => {
-                        visorCanvas.innerHTML = `<p style="color: orange;">XML Inválido para OSMD. Backend envió datos que el visor no entiende.</p>`;
+                        visorCanvas.innerHTML = `<p style="color: orange;">XML Inválido para OSMD. El backend envió datos, pero no son MusicXML válido.</p>`;
                         console.error("Error al renderizar con OSMD:", error);
                     });
                 } catch (error) {
@@ -120,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             } else {
                 visorCanvas.innerHTML = '<p>Cargando librería de visualización...</p>';
-                console.warn("OpenSheetMusicDisplay no definida, reintentando en 100ms...");
+                console.warn("OpenSheetMusicDisplay no definida. Asegúrese que el archivo está en /lib.");
                 setTimeout(tryRender, 100); 
             }
         }
