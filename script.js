@@ -18,10 +18,6 @@ document.getElementById("musicxmlInput").onchange = (e) => {
   cargarPartituraDesdeURL(url);
 };
 
-document.getElementById("convertirBtn").onclick = () => {
-  document.getElementById("mp3Input").click();
-};
-
 document.getElementById("mp3Input").onchange = async (e) => {
   const file = e.target.files[0];
   if (!file) {
