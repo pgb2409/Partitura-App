@@ -12,15 +12,6 @@ function cargarPartituraDesdeXML(xmlText) {
   }
 }
 
-document.getElementById("musicxmlInput").onchange = (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = () => cargarPartituraDesdeXML(reader.result);
-  reader.readAsText(file);
-};
-
 document.getElementById("convertirBtn").onclick = async () => {
   const file = document.getElementById("mp3Input").files[0];
   if (!file) {
