@@ -1,4 +1,4 @@
-// CÓDIGO JAVASCRIPT COMPLETO CON LÓGICA REFORZADA
+// CÓDIGO JAVASCRIPT COMPLETO CON TODAS LAS FUNCIONALIDADES: DIBUJO Y DESCARGA DE PDF
 document.addEventListener('DOMContentLoaded', () => {
     
     // 1. Encontrar los elementos clave de la página
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- FUNCIÓN DE DIBUJO DE PARTITURA ---
     function dibujarPartituraDePrueba(contenedorId) {
-        // ... (código VexFlow para dibujar la partitura) ...
+        
         const div = document.getElementById(contenedorId);
         div.innerHTML = ''; 
         const { Renderer, Stave, Clef, StaveNote, Voice, Formatter } = Vex.Flow;
@@ -77,9 +77,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 displayNombreArchivo.innerHTML = 'Esperando archivo...';
             }
             
-            // LIMPIAR Y OCULTAR:
+            // LIMPIAR Y OCULTAR: Resetea el área de resultados y oculta el botón de PDF.
             areaPartitura.innerHTML = 'Carga un archivo y haz clic en convertir para ver la partitura.'; 
-            // Esto asegura que si el botón estaba visible de una conversión anterior, se oculte:
             descargarPDFButton.style.display = 'none'; 
         });
     }
@@ -101,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return; 
             }
             
-            // Oculta el botón de PDF mientras se convierte
+            // Oculta el botón de PDF mientras se convierte (necesario si el usuario no ha seleccionado un nuevo archivo)
             descargarPDFButton.style.display = 'none'; 
             
             // SIMULACIÓN
@@ -112,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // 1. Dibuja la partitura
                 dibujarPartituraDePrueba('partituraGenerada');
 
-                // 2. Muestra el botón de PDF
+                // 2. Muestra el botón de PDF (¡Esto debe funcionar siempre!)
                 descargarPDFButton.style.display = 'block'; 
 
             }, 4000); // 4 segundos de espera simulada
