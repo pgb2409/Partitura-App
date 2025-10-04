@@ -8,7 +8,6 @@ function cargarPartituraDesdeURL(url) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.font = "16px Arial";
       ctx.fillText("Partitura cargada correctamente", 20, 40);
-      // Aquí podrías integrar VexFlow u otro visor real
     });
 }
 
