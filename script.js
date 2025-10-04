@@ -11,16 +11,23 @@ function cargarPartituraDesdeURL(url) {
     });
 }
 
-document.getElementById("convertirBtn").onclick = () => {
-  document.getElementById("mp3Input").click();
+document.getElementById("musicxmlInput").onchange = (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  cargarPartituraDesdeURL(url);
 };
 
-document.getElementById("mp3Input").onchange = async (e) => {
+const convertirBtn = document.getElementById("convertirBtn");
+const mp3Input = document.getElementById("mp3Input");
+
+convertirBtn.onclick = () => {
+  mp3Input.click();
+};
+
+mp3Input.onchange = async (e) => {
   const file = e.target.files[0];
-  if (!file) {
-    alert("No se ha seleccionado ningún archivo MP3");
-    return;
-  }
+  if (!file) return;
 
   const formData = new FormData();
   formData.append("archivo", file);
