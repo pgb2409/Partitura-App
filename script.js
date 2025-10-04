@@ -11,9 +11,12 @@ function cargarPartituraDesdeURL(url) {
     });
 }
 
-document.getElementById("convertirBtn").onclick = async () => {
-  const input = document.getElementById("mp3Input");
-  const file = input.files[0];
+document.getElementById("convertirBtn").onclick = () => {
+  document.getElementById("mp3Input").click();
+};
+
+document.getElementById("mp3Input").onchange = async (e) => {
+  const file = e.target.files[0];
   if (!file) {
     alert("No se ha seleccionado ningún archivo MP3");
     return;
