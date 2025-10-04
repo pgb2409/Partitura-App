@@ -19,12 +19,7 @@ document.getElementById("musicxmlInput").onchange = (e) => {
 };
 
 document.getElementById("convertirBtn").onclick = () => {
-  const input = document.getElementById("mp3Input");
-  if (!input) {
-    alert("No se encontró el input de MP3");
-    return;
-  }
-  input.click();
+  document.getElementById("mp3Input").click();
 };
 
 document.getElementById("mp3Input").onchange = async (e) => {
@@ -44,14 +39,15 @@ document.getElementById("mp3Input").onchange = async (e) => {
     });
 
     if (!res.ok) {
-      throw new Error(`Error en la conversión: ${res.status}`);
+      const errorText = await res.text();
+      throw new Error(`Error ${res.status}: ${errorText}`);
     }
 
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
     cargarPartituraDesdeURL(url);
   } catch (err) {
-    alert("Hubo un problema al convertir el archivo MP3.");
-    console.error("Error:", err);
+    alert("Error al convertir el archivo MP3:\n" + err.message);
+    console.error("Error completo:", err);
   }
 };
