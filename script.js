@@ -1,8 +1,6 @@
 const canvas = document.getElementById("visorCanvas");
 const ctx = canvas.getContext("2d");
 
-let archivoMP3 = null;
-
 function cargarPartituraDesdeURL(url) {
   fetch(url)
     .then((res) => res.text())
@@ -20,18 +18,19 @@ document.getElementById("musicxmlInput").onchange = (e) => {
   cargarPartituraDesdeURL(url);
 };
 
-document.getElementById("mp3Input").onchange = (e) => {
-  archivoMP3 = e.target.files[0];
+document.getElementById("convertirBtn").onclick = () => {
+  document.getElementById("mp3Input").click();
 };
 
-document.getElementById("convertirBtn").onclick = async () => {
-  if (!archivoMP3) {
-    alert("Primero selecciona un archivo MP3");
+document.getElementById("mp3Input").onchange = async (e) => {
+  const file = e.target.files[0];
+  if (!file) {
+    alert("No se seleccionó ningún archivo MP3");
     return;
   }
 
   const formData = new FormData();
-  formData.append("archivo", archivoMP3);
+  formData.append("archivo", file);
 
   try {
     const res = await fetch("https://backend-conversor.onrender.com/convertir", {
