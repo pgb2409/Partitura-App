@@ -33,7 +33,7 @@ document.getElementById("mp3Input").onchange = async (e) => {
   formData.append("archivo", file);
 
   try {
-    const res = await fetch("https://backend-conversor.onrender.com/convertir", {
+    const res = await fetch("https://backend-conversor-51sa.onrender.com/convertir", {
       method: "POST",
       body: formData,
     });
