@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Partitura App</title>
-    <link rel="stylesheet" href="style.css"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="abcjs-basic.js"></script>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
@@ -12,6 +15,18 @@
     <h1>Partitura App</h1>
 
     <div class="container">
+        
+        <div class="controls">
+            <input type="file" id="fileInput" accept=".pdf,.musicxml,.xml,.mxl" style="padding: 10px; margin-right: 10px;">
+            
+            <button id="convertButton" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Convertir a Partitura
+            </button>
+        </div>
+        
+        <hr>
+
+        <h2>Código ABC</h2>
         <textarea id="abcTextarea" rows="15" cols="80">
 X:1
 T:Minueto en Do
@@ -23,6 +38,7 @@ K:C
         
         <hr>
 
+        <h2>Partitura Generada</h2>
         <div id="output"></div>
         
         <div style="margin-top: 20px; text-align: center;">
@@ -32,7 +48,6 @@ K:C
         </div>
     </div>
 
-    <script src="abcjs-basic.js"></script>
-    <script src="script.js"></script>
+    <script src="script_v2.js"></script>
 </body>
 </html>
