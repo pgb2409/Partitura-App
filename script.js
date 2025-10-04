@@ -18,16 +18,12 @@ document.getElementById("musicxmlInput").onchange = (e) => {
   cargarPartituraDesdeURL(url);
 };
 
-const convertirBtn = document.getElementById("convertirBtn");
-const mp3Input = document.getElementById("mp3Input");
-
-convertirBtn.onclick = () => {
-  mp3Input.click();
-};
-
-mp3Input.onchange = async (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+document.getElementById("convertirBtn").onclick = async () => {
+  const file = document.getElementById("mp3Input").files[0];
+  if (!file) {
+    alert("No se ha seleccionado ningún archivo MP3");
+    return;
+  }
 
   const formData = new FormData();
   formData.append("archivo", file);
