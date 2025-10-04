@@ -3,31 +3,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. DECLARACIÓN DE VARIABLES Y REFERENCIAS ---
     const fileInput = document.getElementById('mp3FileInput');
-    console.log("El script se está ejecutando.");
-alert("Script cargado."); // ESTA ES LA LÍNEA DE PRUEBA
     const selectButton = document.getElementById('selectFileButton');
     const convertButton = document.getElementById('convertButton');
     const fileNameDisplay = document.getElementById('fileNameDisplay');
     const visorCanvas = document.getElementById('visor-canvas');
 
-    // VARIABLE CLAVE: La definimos aquí para que sea visible en todo el script.
     let selectedFile = null;
 
-    // *** ASEGÚRATE DE QUE ESTA URL SEA LA CORRECTA DE RENDER ***
+    // URL CONFIRMADA DE TU BACKEND EN RENDER (TERMINA EN /convertir)
     const BACKEND_URL = 'https://backend-conversor-51sa.onrender.com/convertir'; 
 
 
-    // --- 2. GESTIÓN DE LA CARGA DE ARCHIVOS (Botón Seleccionar MP3) ---
+    // --- 2. GESTIÓN DE LA CARGA DE ARCHIVOS ---
 
     // Conexión del botón visible al input oculto
     selectButton.addEventListener('click', () => {
         fileInput.click();
     });
 
-    // Lógica que habilita el botón y GUARDA el archivo en la variable seleccionada
+    // Lógica que habilita el botón y GUARDA el archivo
     fileInput.addEventListener('change', (event) => {
         if (event.target.files.length > 0) {
-            // LÍNEA CLAVE: El archivo se guarda aquí
             selectedFile = event.target.files[0]; 
             fileNameDisplay.textContent = `Archivo seleccionado: ${selectedFile.name}`;
             convertButton.disabled = false; 
@@ -42,15 +38,14 @@ alert("Script cargado."); // ESTA ES LA LÍNEA DE PRUEBA
     fileNameDisplay.textContent = 'Listo para subir un archivo.';
 
 
-    // --- 3. LÓGICA DEL BOTÓN "CONVERTIR A PARTITURA" (El que no funcionaba) ---
+    // --- 3. LÓGICA DEL BOTÓN "CONVERTIR A PARTITURA" ---
 
-    // Asigna el evento 'click' que verifica si el archivo existe y lo envía
     convertButton.addEventListener('click', () => {
-        // La condición es: si la variable 'selectedFile' tiene un archivo, envíalo.
         if (selectedFile) { 
             convertToMusicXml(); 
         } else {
-            alert("Error interno: selectedFile está vacío.");
+            // Esto solo ocurriría por un error de sincronización
+            alert("Por favor, selecciona un archivo MP3 primero.");
         }
     });
 
@@ -63,7 +58,6 @@ alert("Script cargado."); // ESTA ES LA LÍNEA DE PRUEBA
         visorCanvas.innerHTML = '<p>Enviando archivo al backend y esperando análisis...</p>';
 
         const formData = new FormData();
-        // Aquí usamos la variable que se guardó en el paso 2
         formData.append('mp3File', selectedFile); 
 
         try {
@@ -75,6 +69,7 @@ alert("Script cargado."); // ESTA ES LA LÍNEA DE PRUEBA
             if (!response.ok) {
                 let statusText = response.statusText ? `: ${response.statusText}` : '';
                 let errorMessage = await response.text();
+                // Si el backend responde, pero con error (ej. 500, 400), muestra el detalle.
                 throw new Error(`Error HTTP: ${response.status}${statusText}. Mensaje del servidor: ${errorMessage.substring(0, 100)}...`);
             }
 
@@ -84,6 +79,7 @@ alert("Script cargado."); // ESTA ES LA LÍNEA DE PRUEBA
             renderMusicXml(xmlText);
 
         } catch (error) {
+            // Si hay un error de red (Failed to fetch), se captura aquí.
             visorCanvas.innerHTML = `<p style="color: red;">Error en la conversión o comunicación: ${error.message}</p>`;
             console.error("Error en la conversión:", error);
         } finally {
@@ -93,22 +89,23 @@ alert("Script cargado."); // ESTA ES LA LÍNEA DE PRUEBA
     }
 
 
-    // --- 5. FUNCIÓN DE RENDERIZADO CON OSMD ---
+    // --- 5. FUNCIÓN DE RENDERIZADO CON OSMD (Resuelve el error "is not defined") ---
 
     function renderMusicXml(xmlContent) {
         try {
             visorCanvas.innerHTML = ''; 
 
+            // Esta línea funciona si la librería se cargó en index.html
             const osmd = new OpenSheetMusicDisplay("visor-canvas", {
                 backend: "canvas",
             });
 
             osmd.load(xmlContent).then(function() {
                 osmd.render(); 
-                visorCanvas.insertAdjacentHTML('afterbegin', '<p style="color: green;">Partitura cargada correctamente.</p>');
+                visorCanvas.insertAdjacentHTML('afterbegin', '<p style="color: green;">Partitura cargada correctamente (aunque el backend aún devuelve una partitura vacía).</p>');
 
             }).catch(error => {
-                visorCanvas.innerHTML = `<p style="color: orange;">El XML es sintácticamente correcto pero el visor OSMD ha fallado.</p>`;
+                visorCanvas.innerHTML = `<p style="color: orange;">El XML es sintácticamente correcto pero inválido para MusicXML (verifique el backend).</p>`;
                 console.error("Error al renderizar con OSMD:", error);
             });
 
@@ -119,4 +116,3 @@ alert("Script cargado."); // ESTA ES LA LÍNEA DE PRUEBA
     }
 
 }); // FIN del evento DOMContentLoaded
-
