@@ -1,53 +1,61 @@
-// Este código maneja el botón "Convertir a Partitura".
-// Borra todo el contenido anterior de tu archivo JavaScript y pega este.
+// CÓDIGO JAVASCRIPT COMPLETO Y ACTUALIZADO
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Encontrar los elementos clave de la página usando sus IDs
+    const botonConvertir = document.getElementById('convertirButton'); 
+    const inputArchivo = document.getElementById('mp3File'); 
+    const areaPartitura = document.getElementById('partituraGenerada'); 
+    const displayNombreArchivo = document.getElementById('fileNameDisplay'); // <-- Nuevo elemento añadido
 
-    // Aquí definimos los nombres de los elementos en tu página. 
-    // Asegúrate que el ID de tu botón de "Convertir" sea 'convertirButton'
-    // y el ID de tu input de archivo sea 'mp3File'.
-    const botonConvertir = document.getElementById('convertirButton');
-    const inputArchivo = document.getElementById('mp3File');
-    const areaPartitura = document.getElementById('partituraGenerada'); // La zona de resultados
+    // 2. Lógica para actualizar el nombre del archivo (Paso 1 del usuario)
+    if (inputArchivo && displayNombreArchivo) {
+        // Ejecuta esta función CADA VEZ que el usuario selecciona un archivo diferente
+        inputArchivo.addEventListener('change', () => {
+            if (inputArchivo.files.length > 0) {
+                // Muestra el nombre del archivo seleccionado
+                displayNombreArchivo.innerHTML = `Archivo seleccionado: <strong>${inputArchivo.files[0].name}</strong>`;
+            } else {
+                displayNombreArchivo.innerHTML = 'Esperando archivo...';
+            }
+        });
+    }
 
-    // Comprobamos que todos los elementos existan antes de trabajar con ellos
+    // 3. Lógica para el botón de "Convertir a Partitura" (Simulación)
     if (botonConvertir && inputArchivo && areaPartitura) {
-
-        // Asignamos las instrucciones al botón cuando se hace clic
+        
         botonConvertir.addEventListener('click', (e) => {
-            // Evita que la página se recargue al hacer clic
+            // Evita que la página se recargue
             e.preventDefault(); 
 
             const archivo = inputArchivo.files[0];
 
-            // A) PASO DE VALIDACIÓN: ¿Hay un archivo seleccionado?
+            // A) VALIDACIÓN: Comprobar si hay un archivo seleccionado
             if (!archivo) {
                 areaPartitura.innerHTML = '⚠️ **ERROR:** Primero debes seleccionar un archivo MP3.';
-                return; // Detiene la ejecución si no hay archivo
+                return; 
             }
-
-            // B) PASO DE INICIO: Mostrar un mensaje de que la conversión ha comenzado
+            
+            // B) INICIO DE CONVERSIÓN: Mostrar un mensaje de "cargando"
             areaPartitura.innerHTML = '🎵 **Convirtiendo...** Esto simulará un proceso de 4 segundos. Por favor, espera...';
-
-            // C) PASO DE SIMULACIÓN: Usamos un temporizador para esperar 4 segundos
+            
+            // C) SIMULACIÓN DE PROCESO (El proceso real iría en un servidor)
             setTimeout(() => {
-
-                // D) PASO FINAL: Mostrar el resultado simulado
+                
+                // D) FIN DE CONVERSIÓN: Mostrar el resultado simulado
                 areaPartitura.innerHTML = `
                     ✅ **¡Partitura Generada con Éxito!** (Resultado de Prueba)
                     <hr>
-                    <p>El archivo **${archivo.name}** de ${(archivo.size / 1024 / 1024).toFixed(2)} MB ha sido procesado.</p>
-
-                    <div style="font-size: 1.2em; border: 1px dashed #ccc; padding: 15px; margin-top: 20px;">
-                        **Aquí es donde iría la partitura de batería real.**
-                        <br>
-                        *En el futuro, aquí pondremos la librería para dibujar las notas.*
+                    <p>El archivo <strong>${archivo.name}</strong> ha sido procesado con éxito en la simulación.</p>
+                    
+                    <div style="font-size: 1.2em; border: 1px dashed #007bff; padding: 15px; margin-top: 20px; background-color: #e9f5ff;">
+                        <strong>¡Éxito!</strong> La conexión entre el botón, el archivo y la sección de resultados ¡está funcionando!
                     </div>
                 `;
 
-            }, 4000); // 4000 milisegundos = 4 segundos de espera
+            }, 4000); // 4 segundos de espera simulada
         });
     } else {
-        // Mensaje de ayuda si no encuentra los elementos (solo visible para desarrolladores)
-         console.error("Verifica el HTML: No se encontraron los elementos necesarios (botón, input o área de partitura).");
+         // Mensaje para el desarrollador si algo falta en el HTML
+         console.error("Verifica el HTML: Faltan IDs clave para la aplicación.");
     }
 });
