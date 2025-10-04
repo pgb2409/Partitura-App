@@ -1,21 +1,40 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Partitura de Batería</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partitura App - Transcriptor de Batería</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@latest/build/opensheetmusicdisplay.min.js"></script>
 </head>
 <body>
-  <h1>🥁 Partitura de Batería</h1>
 
-  <div class="botones">
-    <input type="file" id="mp3Input" accept=".mp3" />
-    <button id="convertirBtn">🎵 Convertir MP3 a Partitura</button>
-  </div>
+    <header>
+        <h1>Transcriptor MP3 a Partitura de Batería</h1>
+    </header>
 
-  <canvas id="visorCanvas" width="800" height="200"></canvas>
+    <main>
+        <div class="controls">
+            <input type="file" id="mp3FileInput" accept=".mp3" style="display: none;">
+            
+            <button id="selectFileButton">Seleccionar Archivo MP3</button>
+            
+            <button id="convertButton" disabled>Convertir a Partitura</button>
 
-  <script src="script.js"></script>
-</body>
+            <p id="fileNameDisplay">Esperando archivo...</p>
+        </div>
+
+        <hr>
+
+        <section id="visorContainer">
+            <h2>Partitura Generada</h2>
+            <div id="visor-canvas">
+                <p>Carga un archivo y haz clic en convertir para ver la partitura.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+    </body>
 </html>
