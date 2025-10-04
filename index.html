@@ -1,41 +1,27 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Partitura App - Transcriptor de Batería</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-    <header>
-        <h1>Transcriptor MP3 a Partitura de Batería</h1>
-    </header>
-
-    <main>
-        <div class="controls">
-            <input type="file" id="mp3FileInput" accept=".mp3" style="display: none;">
-            
-            <button onclick="document.getElementById('mp3FileInput').click()">Seleccionar Archivo MP3</button>
-            
-            <button id="convertButton" disabled>Convertir a Partitura</button>
-
-            <p id="fileNameDisplay">Esperando archivo...</p>
+<section id="conversor">
+    <div class="row text-center mb-4">
+        <div class="col-md-12">
+            <label for="mp3File" class="btn btn-primary btn-lg">
+                Seleccionar Archivo MP3
+            </label>
+            <input type="file" id="mp3File" accept="audio/mp3" style="display: none;">
         </div>
-
-        <hr>
-
-        <section id="visorContainer">
-            <h2>Partitura Generada</h2>
-            <div id="visor-canvas">
-                <p>Carga un archivo y haz clic en convertir para ver la partitura.</p>
-            </div>
-        </section>
-
-    </main>
-
-    <script src="lib/opensheetmusicdisplay.min.js"></script>
+    </div>
     
-    <script src="script.js"></script>
-</body>
-</html>
+    <div class="row text-center mb-5">
+        <div class="col-md-12">
+            <button id="convertirButton" class="btn btn-success btn-lg">
+                Convertir a Partitura
+            </button>
+        </div>
+    </div>
+
+    <hr>
+    
+    <h2 class="mt-4">Partitura Generada</h2>
+    
+    <div id="partituraGenerada" class="text-center p-3 border rounded bg-light">
+        Carga un archivo y haz clic en convertir para ver la partitura.
+    </div>
+
+</section>
