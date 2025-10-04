@@ -1,30 +1,30 @@
 const canvas = document.getElementById("visorCanvas");
 const ctx = canvas.getContext("2d");
 
-function cargarPartituraDesdeURL(url) {
-  fetch(url)
-    .then((res) => res.text())
-    .then((xml) => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.font = "16px Arial";
-      ctx.fillText("Partitura cargada correctamente", 20, 40);
-    });
+function cargarPartituraDesdeXML(xmlText) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.font = "16px Arial";
+
+  if (xmlText.includes("<note>")) {
+    ctx.fillText("🎶 Partitura detectada y cargada", 20, 40);
+  } else {
+    ctx.fillText("⚠️ El archivo MusicXML no contiene notas visibles", 20, 40);
+  }
 }
 
 document.getElementById("musicxmlInput").onchange = (e) => {
   const file = e.target.files[0];
   if (!file) return;
-  const url = URL.createObjectURL(file);
-  cargarPartituraDesdeURL(url);
+
+  const reader = new FileReader();
+  reader.onload = () => cargarPartituraDesdeXML(reader.result);
+  reader.readAsText(file);
 };
 
 document.getElementById("convertirBtn").onclick = async () => {
-  const mp3Input = document.getElementById("mp3Input");
-  const file = mp3Input.files[0];
-
+  const file = document.getElementById("mp3Input").files[0];
   if (!file) {
     alert("Selecciona un archivo MP3 antes de convertir");
-    mp3Input.focus();
     return;
   }
 
@@ -42,9 +42,8 @@ document.getElementById("convertirBtn").onclick = async () => {
       throw new Error(`Error ${res.status}: ${errorText}`);
     }
 
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
-    cargarPartituraDesdeURL(url);
+    const xmlText = await res.text();
+    cargarPartituraDesdeXML(xmlText);
   } catch (err) {
     alert("Error al convertir el archivo MP3:\n" + err.message);
     console.error("Error completo:", err);
