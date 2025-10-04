@@ -1,18 +1,63 @@
-// CÓDIGO JAVASCRIPT COMPLETO Y ACTUALIZADO
+// CÓDIGO JAVASCRIPT COMPLETO CON LA FUNCIÓN DE DIBUJO DE PARTITURA
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. Encontrar los elementos clave de la página usando sus IDs
+    // --- FUNCIÓN PRINCIPAL DE DIBUJO DE PARTITURA ---
+    function dibujarPartituraDePrueba(contenedorId) {
+        
+        // 1. Limpiar el área donde estaba el mensaje de "cargando"
+        const div = document.getElementById(contenedorId);
+        div.innerHTML = ''; 
+        
+        // 2. Definir las herramientas de VexFlow
+        // Usamos el objeto global Vex que se cargó desde el HTML
+        const { Renderer, Stave, Clef, StaveNote, Voice, Formatter } = Vex.Flow;
+        
+        // 3. Crear el lienzo de dibujo (en formato SVG)
+        const renderer = new Renderer(div, Renderer.Backends.SVG);
+        renderer.resize(500, 200); // Define el tamaño del área de dibujo
+        const context = renderer.getContext();
+        context.setFont('Arial', 10);
+
+        // 4. Crear el pentagrama (Stave)
+        const stave = new Stave(10, 0, 480); // Posición inicial y ancho
+        stave.addClef('percussion').addTimeSignature('4/4'); // ¡Esto lo define como pentagrama de percusión!
+        stave.setContext(context).draw();
+
+        // 5. Definir las notas (4 Negras: Kick, Snare, Kick, Snare)
+        const notes = [
+            // Nota 1 (Negra): Bombo (Kick) en F4
+            new StaveNote({ keys: ['f/4'], duration: 'q', clef: 'percussion' }).addAnnotation(0, new Vex.Flow.Annotation("Kick")),
+            // Nota 2 (Negra): Caja (Snare) en C5
+            new StaveNote({ keys: ['c/5'], duration: 'q', clef: 'percussion' }).addAnnotation(0, new Vex.Flow.Annotation("Snare")),
+            // Nota 3 (Negra): Bombo (Kick)
+            new StaveNote({ keys: ['f/4'], duration: 'q', clef: 'percussion' }).addAnnotation(0, new Vex.Flow.Annotation("Kick")),
+            // Nota 4 (Negra): Caja (Snare)
+            new StaveNote({ keys: ['c/5'], duration: 'q', clef: 'percussion' }).addAnnotation(0, new Vex.Flow.Annotation("Snare")),
+        ];
+
+        // 6. Crear la voz (agrupación de notas)
+        const voice = new Voice({ num_beats: 4, beat_value: 4 }).addTickables(notes);
+        
+        // 7. Formatear y dibujar la partitura
+        new Formatter().joinVoices([voice]).format([voice], 450);
+        voice.draw(context, stave);
+        
+        // Mensaje de éxito debajo del dibujo
+        div.innerHTML += '<p class="mt-3 text-success text-center">✅ ¡Partitura de prueba dibujada con éxito!</p>';
+    }
+    // --- FIN DE LA FUNCIÓN DE DIBUJO ---
+
+
+    // 8. Lógica de la aplicación (Botón y Archivo)
     const botonConvertir = document.getElementById('convertirButton'); 
     const inputArchivo = document.getElementById('mp3File'); 
     const areaPartitura = document.getElementById('partituraGenerada'); 
-    const displayNombreArchivo = document.getElementById('fileNameDisplay'); // <-- Nuevo elemento añadido
+    const displayNombreArchivo = document.getElementById('fileNameDisplay');
 
-    // 2. Lógica para actualizar el nombre del archivo (Paso 1 del usuario)
+    // Lógica para actualizar el nombre del archivo
     if (inputArchivo && displayNombreArchivo) {
-        // Ejecuta esta función CADA VEZ que el usuario selecciona un archivo diferente
         inputArchivo.addEventListener('change', () => {
             if (inputArchivo.files.length > 0) {
-                // Muestra el nombre del archivo seleccionado
                 displayNombreArchivo.innerHTML = `Archivo seleccionado: <strong>${inputArchivo.files[0].name}</strong>`;
             } else {
                 displayNombreArchivo.innerHTML = 'Esperando archivo...';
@@ -20,42 +65,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Lógica para el botón de "Convertir a Partitura" (Simulación)
+    // Lógica para el botón de "Convertir"
     if (botonConvertir && inputArchivo && areaPartitura) {
         
         botonConvertir.addEventListener('click', (e) => {
-            // Evita que la página se recargue
             e.preventDefault(); 
 
-            const archivo = inputArchivo.files[0];
-
-            // A) VALIDACIÓN: Comprobar si hay un archivo seleccionado
-            if (!archivo) {
+            if (!inputArchivo.files[0]) {
                 areaPartitura.innerHTML = '⚠️ **ERROR:** Primero debes seleccionar un archivo MP3.';
                 return; 
             }
             
-            // B) INICIO DE CONVERSIÓN: Mostrar un mensaje de "cargando"
-            areaPartitura.innerHTML = '🎵 **Convirtiendo...** Esto simulará un proceso de 4 segundos. Por favor, espera...';
+            // Inicio de Conversión
+            areaPartitura.innerHTML = '🎵 **Convirtiendo...** Generando partitura en 4 segundos...';
             
-            // C) SIMULACIÓN DE PROCESO (El proceso real iría en un servidor)
+            // SIMULACIÓN DE PROCESO
             setTimeout(() => {
                 
-                // D) FIN DE CONVERSIÓN: Mostrar el resultado simulado
-                areaPartitura.innerHTML = `
-                    ✅ **¡Partitura Generada con Éxito!** (Resultado de Prueba)
-                    <hr>
-                    <p>El archivo <strong>${archivo.name}</strong> ha sido procesado con éxito en la simulación.</p>
-                    
-                    <div style="font-size: 1.2em; border: 1px dashed #007bff; padding: 15px; margin-top: 20px; background-color: #e9f5ff;">
-                        <strong>¡Éxito!</strong> La conexión entre el botón, el archivo y la sección de resultados ¡está funcionando!
-                    </div>
-                `;
+                // *** ¡ACCIÓN FINAL! Llamar a la función que dibuja la partitura ***
+                dibujarPartituraDePrueba('partituraGenerada');
 
             }, 4000); // 4 segundos de espera simulada
         });
-    } else {
-         // Mensaje para el desarrollador si algo falta en el HTML
-         console.error("Verifica el HTML: Faltan IDs clave para la aplicación.");
     }
 });
