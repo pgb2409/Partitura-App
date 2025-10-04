@@ -8,12 +8,8 @@ const outputDiv = document.getElementById('output');
 const downloadPdfButton = document.getElementById('downloadPdfButton');
 
 // 1. RE-DEFINICIÓN de la función de renderizado
-// Necesitamos que esta función se ejecute SIEMPRE que se dibuje la partitura
-// para controlar la visibilidad del botón de descarga.
 
 const originalRenderMusic = window.renderMusic || function() {
-    // Si la función ya existe en tu script_v2.js, la usamos. 
-    // Si no, definimos una función básica para evitar errores.
     const abc = abcTextarea.value;
     const notation = window.ABCJS.renderAbc('output', abc, { 
         staffwidth: 800,
@@ -76,5 +72,3 @@ downloadPdfButton.addEventListener('click', () => {
     
     doc.save(filename);
 });
-
-// ====================================================================
