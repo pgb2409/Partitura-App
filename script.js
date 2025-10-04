@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // ESTE ARCHIVO AHORA SOLO MANEJA LA DESCARGA DE PDF
+    // ESTE ARCHIVO AHORA SOLO MANEJA LA DESCARGA DE PDF Y EL DIBUJO DE LA PARTITURA.
 
     const abcTextarea = document.getElementById('abcTextarea');
     const outputDiv = document.getElementById('output');
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             responsive: 'resize'
         });
         
-        // Controlamos la visibilidad del botón de descarga
+        // Controlamos la visibilidad del botón de descarga (ESTO DEBE FUNCIONAR)
         if (notation && notation.length > 0) {
             downloadPdfButton.style.display = 'block'; 
         } else {
