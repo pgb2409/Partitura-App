@@ -19,9 +19,12 @@ document.getElementById("musicxmlInput").onchange = (e) => {
 };
 
 document.getElementById("convertirBtn").onclick = async () => {
-  const file = document.getElementById("mp3Input").files[0];
+  const mp3Input = document.getElementById("mp3Input");
+  const file = mp3Input.files[0];
+
   if (!file) {
-    alert("No se ha seleccionado ningún archivo MP3");
+    alert("Selecciona un archivo MP3 antes de convertir");
+    mp3Input.focus();
     return;
   }
 
