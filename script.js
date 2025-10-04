@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. DECLARACIÓN DE VARIABLES Y REFERENCIAS ---
     const fileInput = document.getElementById('mp3FileInput');
+    console.log("El script se está ejecutando.");
+alert("Script cargado."); // ESTA ES LA LÍNEA DE PRUEBA
     const selectButton = document.getElementById('selectFileButton');
     const convertButton = document.getElementById('convertButton');
     const fileNameDisplay = document.getElementById('fileNameDisplay');
@@ -117,3 +119,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 }); // FIN del evento DOMContentLoaded
+
