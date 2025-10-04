@@ -1,74 +1,61 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Obtener los elementos clave de la página
+    // ESTE ARCHIVO AHORA SOLO MANEJA LA DESCARGA DE PDF
+
     const abcTextarea = document.getElementById('abcTextarea');
     const outputDiv = document.getElementById('output');
     const downloadPdfButton = document.getElementById('downloadPdfButton');
-    
-    // Función para dibujar la partitura y controlar la visibilidad del botón
+
+    // ------------------------------------------------------------------
+    // A. Lógica para Dibujar la Partitura y Controlar el Botón de Descarga
+    // ------------------------------------------------------------------
+
     const renderMusic = () => {
         const abc = abcTextarea.value;
         
-        // Renderiza la partitura usando ABCJS (la librería de música)
+        // Limpiamos el contenedor y dibujamos la partitura
+        outputDiv.innerHTML = '';
         const notation = window.ABCJS.renderAbc('output', abc, { 
             staffwidth: 800,
             responsive: 'resize'
         });
         
-        // Si la partitura se dibujó sin errores (la matriz notation tiene contenido),
-        // hacemos el botón de descarga visible.
+        // Controlamos la visibilidad del botón de descarga
         if (notation && notation.length > 0) {
-            downloadPdfButton.style.display = 'block'; // Mostrar el botón
+            downloadPdfButton.style.display = 'block'; 
         } else {
-            downloadPdfButton.style.display = 'none'; // Ocultar si hay errores o está vacío
+            downloadPdfButton.style.display = 'none'; 
         }
     };
 
-    // Cada vez que el usuario escribe o cambia el texto, se redibuja la partitura
+    // Al escribir, se redibuja la partitura
     abcTextarea.addEventListener('input', renderMusic);
+    renderMusic(); // Dibuja la música inicial
 
-    // Dibuja la música inicial al cargar la página por primera vez
-    renderMusic();
+    // ------------------------------------------------------------------
+    // B. Lógica para la Descarga del PDF
+    // ------------------------------------------------------------------
     
-    // --- 2. Lógica para la Descarga del PDF ---
-    
-    // Cuando el usuario hace clic en el botón
     downloadPdfButton.addEventListener('click', () => {
-        // Obtenemos la imagen de la partitura (está en formato SVG)
         const svgElement = outputDiv.querySelector('svg');
-        
         if (!svgElement) {
             alert('Error: No se encontró la partitura para descargar.');
             return;
         }
 
-        // Convertir el SVG a un formato que el PDF pueda leer
         const svgData = new XMLSerializer().serializeToString(svgElement);
         const svgBase64 = btoa(svgData);
         const svgUrl = 'data:image/svg+xml;base64,' + svgBase64;
         
-        // Inicializar el objeto PDF (usando la librería jsPDF)
-        const doc = new window.jspdf.jsPDF({
-            orientation: 'landscape', // Formato Horizontal (A4 apaisado)
-            unit: 'mm',
-            format: 'a4'
-        });
-
-        // Añadir la partitura (SVG) al documento PDF
-        // Los números ajustan el tamaño para que quepa bien en el documento
+        const doc = new window.jspdf.jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
         doc.addImage(svgUrl, 'SVG', 10, 10, 277, 190); 
 
-        // Definir el nombre del archivo de descarga
         let filename = 'Partitura.pdf';
-        
-        // Intentar usar el título de la partitura (T:) como nombre de archivo
         const abc = abcTextarea.value;
         const titleMatch = abc.match(/^T:\s*(.*)/m);
         if (titleMatch && titleMatch[1]) {
-            // Limpiar el título para que sea un nombre de archivo válido
             filename = titleMatch[1].replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.pdf';
         }
         
-        // Ejecutar la descarga
         doc.save(filename);
     });
 });
