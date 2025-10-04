@@ -1,24 +1,13 @@
-// Referencias a elementos del DOM (ASEGÚRATE QUE ESTAS EXISTAN ARRIBA)
-const fileInput = document.getElementById('mp3FileInput');
-const selectButton = document.getElementById('selectFileButton');
-// ... (otras referencias) ...
+// --- SECCIÓN DE GESTIÓN DE CARGA (Para HABILITAR el botón) ---
 
-
-// --- GESTIÓN DE LA CARGA DE ARCHIVOS ---
-
-// El botón "Seleccionar Archivo MP3" hace click en el input de archivo (que está oculto)
-selectButton.addEventListener('click', () => {
-    // ESTA ES LA LÍNEA CLAVE QUE DEBE FUNCIONAR:
-    fileInput.click();
-});
-
-// Cuando se selecciona un archivo, actualiza el estado y habilita el botón de conversión
+// Cuando se selecciona un archivo, actualiza el estado
 fileInput.addEventListener('change', (event) => {
     // Si hay archivos seleccionados, toma el primero
     if (event.target.files.length > 0) {
         selectedFile = event.target.files[0];
         fileNameDisplay.textContent = `Archivo seleccionado: ${selectedFile.name}`;
-        convertButton.disabled = false; // Habilita el botón de conversión
+        // LÍNEA CLAVE: HABILITAR el botón de conversión
+        convertButton.disabled = false; 
     } else {
         selectedFile = null;
         fileNameDisplay.textContent = 'Esperando archivo...';
@@ -26,4 +15,15 @@ fileInput.addEventListener('change', (event) => {
     }
 });
 
-// ... (Resto del código, como la función convertToMusicXml) ...
+
+// --- SECCIÓN DE LÓGICA DE CONVERSIÓN (Para que el botón haga algo) ---
+
+// LÍNEA CLAVE: Asignar el evento 'click' al botón de conversión
+convertButton.addEventListener('click', () => {
+    if (selectedFile) {
+        // Llama a la función principal para enviar la petición
+        convertToMusicXml(); 
+    } else {
+        alert("Por favor, selecciona un archivo MP3 primero.");
+    }
+});
