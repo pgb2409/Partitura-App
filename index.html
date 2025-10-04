@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Partitura App - Transcriptor de Batería</title>
     <link rel="stylesheet" href="style.css">
-    
-    </head>
+</head>
 <body>
 
     <header>
@@ -17,7 +16,7 @@
         <div class="controls">
             <input type="file" id="mp3FileInput" accept=".mp3" style="display: none;">
             
-            <button id="selectFileButton">Seleccionar Archivo MP3</button>
+            <button onclick="document.getElementById('mp3FileInput').click()">Seleccionar Archivo MP3</button>
             
             <button id="convertButton" disabled>Convertir a Partitura</button>
 
@@ -35,7 +34,7 @@
 
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@1.4.0/build/opensheetmusicdisplay.min.js"></script>
+    <script src="lib/opensheetmusicdisplay.min.js"></script>
     
     <script src="script.js"></script>
 </body>
