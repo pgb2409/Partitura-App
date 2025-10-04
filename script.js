@@ -8,6 +8,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const displayNombreArchivo = document.getElementById('fileNameDisplay');
     const descargarPDFButton = document.getElementById('descargarPDFButton'); 
 
+    // Ocultamos el botón al inicio, ahora que es visible en el HTML
+    if (descargarPDFButton) {
+        descargarPDFButton.style.display = 'none'; 
+        descargarPDFButton.innerHTML = "Descargar Partitura (PDF)"; // Restauramos el texto
+    }
+
+
     // --- FUNCIÓN DE DIBUJO DE PARTITURA (USA VEXFLOW) ---
     function dibujarPartituraDePrueba(contenedorId) {
         
@@ -77,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------
 
 
-    // 2. Lógica para actualizar el nombre del archivo
+    // 3. Lógica para actualizar el nombre del archivo
     if (inputArchivo && displayNombreArchivo) {
         inputArchivo.addEventListener('change', () => {
             if (inputArchivo.files.length > 0) {
@@ -90,13 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 3. Asigna la función de descarga al botón de PDF
+    // 4. Asigna la función de descarga al botón de PDF
     if (descargarPDFButton) {
         descargarPDFButton.addEventListener('click', descargarPartituraPDF);
     }
 
 
-    // 4. Lógica para el botón de "Convertir"
+    // 5. Lógica para el botón de "Convertir"
     if (botonConvertir && inputArchivo && areaPartitura) {
         
         botonConvertir.addEventListener('click', (e) => {
