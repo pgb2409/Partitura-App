@@ -1,117 +1,80 @@
-// CÓDIGO JAVASCRIPT COMPLETO PARA script_v2.js
-document.addEventListener('DOMContentLoaded', () => {
+// ====================================================================
+// --- LÓGICA AGREGADA PARA LA VISIBILIDAD Y DESCARGA DEL BOTÓN PDF ---
+// ====================================================================
+
+// Asegúrate de que los elementos sean accesibles
+const abcTextarea = document.getElementById('abcTextarea');
+const outputDiv = document.getElementById('output');
+const downloadPdfButton = document.getElementById('downloadPdfButton');
+
+// 1. RE-DEFINICIÓN de la función de renderizado
+// Necesitamos que esta función se ejecute SIEMPRE que se dibuje la partitura
+// para controlar la visibilidad del botón de descarga.
+
+const originalRenderMusic = window.renderMusic || function() {
+    // Si la función ya existe en tu script_v2.js, la usamos. 
+    // Si no, definimos una función básica para evitar errores.
+    const abc = abcTextarea.value;
+    const notation = window.ABCJS.renderAbc('output', abc, { 
+        staffwidth: 800,
+        responsive: 'resize'
+    });
+    return notation;
+};
+
+// Sobreescribimos la función de renderizado para añadir la lógica del botón
+window.renderMusic = function() {
+    const notation = originalRenderMusic();
+
+    // Comprobación para hacer visible el botón
+    if (notation && notation.length > 0) {
+        downloadPdfButton.style.display = 'block'; 
+    } else {
+        downloadPdfButton.style.display = 'none'; 
+    }
+    return notation;
+};
+
+// Aseguramos que la partitura se redibuje al escribir
+abcTextarea.addEventListener('input', window.renderMusic);
+// También la dibujamos al inicio
+window.renderMusic();
+
+
+// 2. Lógica para la Descarga al hacer click
+downloadPdfButton.addEventListener('click', () => {
+    // Obtenemos la imagen de la partitura (SVG)
+    const svgElement = outputDiv.querySelector('svg');
     
-    // 1. Encontrar los elementos clave de la página
-    const botonConvertir = document.getElementById('convertirButton'); 
-    const inputArchivo = document.getElementById('mp3File'); 
-    const areaPartitura = document.getElementById('partituraGenerada'); 
-    const displayNombreArchivo = document.getElementById('fileNameDisplay');
-    const descargarPDFButton = document.getElementById('descargarPDFButton'); 
-
-    // --- FUNCIÓN DE DIBUJO DE PARTITURA ---
-    function dibujarPartituraDePrueba(contenedorId) {
-        
-        const div = document.getElementById(contenedorId);
-        div.innerHTML = ''; 
-        const { Renderer, Stave, Clef, StaveNote, Voice, Formatter } = Vex.Flow;
-        const renderer = new Renderer(div, Renderer.Backends.SVG);
-        renderer.resize(500, 200); 
-        const context = renderer.getContext();
-        context.setFont('Arial', 10);
-
-        const stave = new Stave(10, 0, 480); 
-        stave.addClef('percussion').addTimeSignature('4/4'); 
-        stave.setContext(context).draw();
-
-        const notes = [
-            new StaveNote({ keys: ['f/4'], duration: 'q', clef: 'percussion' }).addAnnotation(0, new Vex.Flow.Annotation("Kick")),
-            new StaveNote({ keys: ['c/5'], duration: 'q', clef: 'percussion' }).addAnnotation(0, new Vex.Flow.Annotation("Snare")),
-            new StaveNote({ keys: ['f/4'], duration: 'q', clef: 'percussion' }).addAnnotation(0, new Vex.Flow.Annotation("Kick")),
-            new StaveNote({ keys: ['c/5'], duration: 'q', clef: 'percussion' }).addAnnotation(0, new Vex.Flow.Annotation("Snare")),
-        ];
-
-        const voice = new Voice({ num_beats: 4, beat_value: 4 }).addTickables(notes);
-        new Formatter().joinVoices([voice]).format([voice], 450);
-        voice.draw(context, stave);
-        
-        div.innerHTML += '<p class="mt-3 text-success text-center">✅ ¡Partitura de prueba dibujada con éxito!</p>';
-    }
-    // ----------------------------------------------------
-
-
-    // --- FUNCIÓN DE DESCARGA PDF ---
-    function descargarPartituraPDF() {
-        descargarPDFButton.style.display = 'none';
-
-        const partituraElement = document.getElementById('partituraGenerada');
-
-        html2canvas(partituraElement, { 
-            scale: 2, 
-            backgroundColor: '#ffffff'
-        }).then(canvas => {
-            
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF('p', 'mm', 'a4'); 
-            
-            const imgData = canvas.toDataURL('image/png');
-            const imgWidth = 210; 
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-            pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-
-            pdf.save('partitura_bateria_transcrita.pdf');
-            
-            descargarPDFButton.style.display = 'block'; 
-        });
-    }
-    // ----------------------------------------------------
-
-
-    // 3. Lógica para actualizar el nombre del archivo
-    if (inputArchivo && displayNombreArchivo) {
-        inputArchivo.addEventListener('change', () => {
-            if (inputArchivo.files.length > 0) {
-                displayNombreArchivo.innerHTML = `Archivo seleccionado: <strong>${inputArchivo.files[0].name}</strong>`;
-            } else {
-                displayNombreArchivo.innerHTML = 'Esperando archivo...';
-            }
-            
-            // LIMPIAR Y OCULTAR
-            areaPartitura.innerHTML = 'Carga un archivo y haz clic en convertir para ver la partitura.'; 
-            descargarPDFButton.style.display = 'none'; 
-        });
+    if (!svgElement) {
+        alert('Error: No se encontró la partitura para descargar.');
+        return;
     }
 
-    // 4. Asigna la función de descarga al botón de PDF
-    if (descargarPDFButton) {
-        descargarPDFButton.addEventListener('click', descargarPartituraPDF);
+    // Conversión del SVG a datos para el PDF
+    const svgData = new XMLSerializer().serializeToString(svgElement);
+    const svgBase64 = btoa(svgData);
+    const svgUrl = 'data:image/svg+xml;base64,' + svgBase64;
+    
+    // Inicializar el objeto PDF
+    const doc = new window.jspdf.jsPDF({
+        orientation: 'landscape', 
+        unit: 'mm',
+        format: 'a4'
+    });
+
+    // Añadir el SVG al PDF
+    doc.addImage(svgUrl, 'SVG', 10, 10, 277, 190); 
+    
+    // Usar el título de la partitura como nombre de archivo
+    let filename = 'Partitura.pdf';
+    const abc = abcTextarea.value;
+    const titleMatch = abc.match(/^T:\s*(.*)/m);
+    if (titleMatch && titleMatch[1]) {
+        filename = titleMatch[1].replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.pdf';
     }
-
-
-    // 5. Lógica para el botón de "Convertir"
-    if (botonConvertir && inputArchivo && areaPartitura) {
-        
-        botonConvertir.addEventListener('click', (e) => {
-            e.preventDefault(); 
-            
-            if (!inputArchivo.files[0]) {
-                areaPartitura.innerHTML = '⚠️ **ERROR:** Primero debes seleccionar un archivo MP3.';
-                return; 
-            }
-            
-            descargarPDFButton.style.display = 'none'; 
-            
-            // SIMULACIÓN
-            areaPartitura.innerHTML = '🎵 **Convirtiendo...** Generando partitura en 4 segundos...';
-            
-            setTimeout(() => {
-                
-                // 1. Dibuja la partitura
-                dibujarPartituraDePrueba('partituraGenerada');
-
-                // 2. Muestra el botón de PDF
-                descargarPDFButton.style.display = 'block'; 
-
-            }, 4000); // 4 segundos de espera simulada
-        });
-    }
+    
+    doc.save(filename);
 });
+
+// ====================================================================
