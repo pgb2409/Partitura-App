@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
     
     <script src="abcjs-basic.js"></script>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
@@ -17,32 +16,30 @@
     <div class="container">
         
         <div class="controls">
-            <input type="file" id="fileInput" accept=".pdf,.musicxml,.xml,.mxl" style="padding: 10px; margin-right: 10px;">
+            <input type="file" id="fileInput" accept=".mp3,.wav,.ogg,.musicxml,.xml,.mxl" style="padding: 10px; margin-right: 10px;">
             
-            <button id="convertButton" style="padding: 10px 20px; background-color: #007BFF; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            <button id="convertButton">
                 Convertir a Partitura
             </button>
         </div>
         
         <hr>
 
-        <h2>Código ABC</h2>
         <textarea id="abcTextarea" rows="15" cols="80">
 X:1
-T:Minueto en Do
-M:3/4
+T:Ejemplo
+M:4/4
 L:1/4
 K:C
-|: C D E | F G A | B c d | e f g :|
+|: CDEF | GABc | d2c2 | B2A2 :|
         </textarea>
         
         <hr>
 
-        <h2>Partitura Generada</h2>
         <div id="output"></div>
         
         <div style="margin-top: 20px; text-align: center;">
-            <button id="downloadPdfButton" style="display:none; padding: 10px 20px; font-size: 16px; cursor: pointer; background-color: #4CAF50; color: white; border: none; border-radius: 5px;">
+            <button id="downloadPdfButton" style="display:none; padding: 10px 20px; font-size: 16px; cursor: pointer;">
                 Descargar Partitura (PDF)
             </button>
         </div>
