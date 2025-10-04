@@ -19,12 +19,20 @@ document.getElementById("musicxmlInput").onchange = (e) => {
 };
 
 document.getElementById("convertirBtn").onclick = () => {
-  document.getElementById("mp3Input").click();
+  const input = document.getElementById("mp3Input");
+  if (!input) {
+    alert("No se encontró el input de MP3");
+    return;
+  }
+  input.click();
 };
 
 document.getElementById("mp3Input").onchange = async (e) => {
   const file = e.target.files[0];
-  if (!file) return;
+  if (!file) {
+    alert("No se seleccionó ningún archivo MP3");
+    return;
+  }
 
   const formData = new FormData();
   formData.append("archivo", file);
@@ -35,13 +43,15 @@ document.getElementById("mp3Input").onchange = async (e) => {
       body: formData,
     });
 
-    if (!res.ok) throw new Error("Error en la conversión");
+    if (!res.ok) {
+      throw new Error(`Error en la conversión: ${res.status}`);
+    }
 
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
     cargarPartituraDesdeURL(url);
   } catch (err) {
-    alert("Hubo un problema al convertir el archivo.");
-    console.error(err);
+    alert("Hubo un problema al convertir el archivo MP3.");
+    console.error("Error:", err);
   }
 };
