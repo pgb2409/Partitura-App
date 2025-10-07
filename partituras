@@ -1,1 +1,603 @@
-
+<score-partwise>
+<trabajo>
+<work-title>Partitura sin título</work-title>
+</trabajo>
+<identificación>
+<codificación>
+<software>MuseScore Studio 4.6.0</software>
+<admite/>
+<admite/>
+<supports/>
+<supports/>
+<admite/>
+</codificación>
+<Varios>
+</varios>
+</identificación>
+<valores predeterminados>
+<escalando>
+</escalado>
+<diseño de página>
+<page-margins>
+</márgenes de página>
+<page-margins>
+</márgenes de página>
+</diseño de página>
+<apariencia>
+</apariencia>
+<music-font/>
+<word-font/>
+<lyric-font/>
+</valores predeterminados>
+<>
+</crédito>
+<>
+</crédito>
+<>
+</crédito>
+<lista-de-piezas>
+<>
+<>
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<score-instrument>
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<score-instrument>
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<score-instrument>
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<>
+de
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<score-instrument>
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<score-instrument>
+</partitura-instrumento>
+<>
+</partitura-instrumento>
+<puerto midi-device/>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+<midi-instrument>
+</instrumento midi>
+</partitura>
+</lista-de-piezas>
+<>
+<>
+<imprimir>
+<diseño del sistema>
+<márgenes del sistema>
+</márgenes del sistema>
+</system-layout>
+</print>
+<attributes>
+<divisions>16</divisions>
+<key>
+<fifths>0</fifths>
+<mode>none</mode>
+</key>
+<time>
+<beats>4</beats>
+<beat-type>4</beat-type>
+</time>
+<clef>
+<sign>percussion</sign>
+</clef>
+</attributes>
+<note default-x="68.69" default-y="-10">
+<rest/>
+<duration>8</duration>
+<voice>1</voice>
+<type>eighth</type>
+</note>
+<note default-x="96.25" default-y="-15">
+<unpitched>
+<display-step>C</display-step>
+<display-octave>5</display-octave>
+</unpitched>
+<duration>4</duration>
+<instrument id="P1-I39"/>
+<voice>1</voice>
+<stem>up</stem>
+</nota>
+<nota>
+<sin pitch>
+</sin pitch>
+</>
+<stem>up</stem>
+</nota>
+<nota>
+<sin pitch>
+</sin pitch>
+</>
+<stem>up</stem>
+<notehead>circle-x</notehead>
+</nota>
+<nota>
+<sin pitch>
+</sin pitch>
+</>
+<stem>up</stem>
+</nota>
+<nota>
+<sin pitch>
+</unpitched>
+<duration>16</duration>
+<instrument id="P1-I52"/>
+<voice>1</voice>
+<type>quarter</type>
+<stem>up</stem>
+<notehead>x</notehead>
+</note>
+<note default-x="233.6" default-y="-5">
+<unpitched>
+<display-step>E</display-step>
+<display-octave>5</display-octave>
+</unpitched>
+<duration>8</duration>
+<instrument id="P1-I49"/>
+<voice>1</voice>
+<type>eighth</type>
+<stem>up</stem>
+<beam number="1">begin</beam>
+</note>
+<note default-x="261.16" default-y="-25">
+<unpitched>
+<display-step>A</display-step>
+<display-octave>4</display-octave>
+</unpitched>
+<duration>4</duration>
+<instrument id="P1-I44"/>
+<voice>1</voice>
+<type>16th</type>
+<stem>up</stem>
+<beam number="1">continue</beam>
+<beam number="2">begin</beam>
+</note>
+<note default-x="299.81" default-y="-15">
+<unpitched>
+<display-step>C</display-step>
+<display-octave>5</display-octave>
+</unpitched>
+<duration>4</duration>
+<instrument id="P1-I38"/>
+<voice>1</voice>
+<type>16th</type>
+<stem>up</stem>
+<notehead>slashed</notehead>
+</nota>
+<nota>
+<sin pitch>
+</sin pitch>
+</>
+</>
+<stem>up</stem>
+<notaciones>
+</>
+</notaciones>
+</nota>
+<copia de seguridad>
+</copia de seguridad>
+<nota>
+<sin pitch>
+</sin pitch>
+</>
+</nota>
+<nota>
+<descanso/>
+</nota>
+<nota>
+<descanso/>
+</nota>
+<nota>
+<descanso/>
+<punto/>
+</note>
+<note default-x="279.12" default-y="-40">
+<rest/>
+<duration>4</duration>
+<voice>2</voice>
+<type>16th</type>
+</note>
+<backup>
+<duration>1</duration>
+</backup>
+<note default-x="297.88" default-y="-40">
+<unpitched>
+<display-step>E</display-step>
+<display-octave>4</display-octave>
+</unpitched>
+<duration>2</duration>
+<instrument id="P1-I36"/>
+<voice>2</voice>
+<type>32nd</type>
+<stem>down</stem>
+</note>
+<forward>
+<duration>3</duration>
+</forward>
+</measure>
+<measure number="2" width="304.91">
+<note default-x="12.5" default-y="15">
+<unpitched>
+<display-step>B</display-step>
+<display-octave>5</display-octave>
+</unpitched>
+<duration>15</duration>
+<tie type="stop"/>
+<instrument id="P1-I58"/>
+<voice>1</voice>
+<type>eighth</type>
+<dot default-x="30.49" default-y="15"/>
+<dot default-x="36.99" default-y="15"/>
+<dot default-x="43.49" default-y="15"/>
+<stem>up</stem>
+<notehead>x</notehead>
+<beam number="1">begin</beam>
+<notations>
+<tied type="stop"/>
+</notaciones>
+</nota>
+<nota>
+<sin pitch>
+</sin pitch>
+</>
+<stem>up</stem>
+</nota>
+<nota>
+<sin pitch>
+</sin pitch>
+</>
+<stem>up</stem>
+</nota>
+<nota>
+<sin pitch>
+</sin pitch>
+</>
+<stem>up</stem>
+</nota>
+<nota>
+<sin pitch>
+</sin pitch>
+</>
+<voice>1</voice>
+<type>64th</type>
+<stem>up</stem>
+<notehead>x</notehead>
+<beam number="1">end</beam>
+<beam number="2">end</beam>
+<beam number="3">end</beam>
+<beam number="4">backward hook</beam>
+</note>
+<note default-x="170.94" default-y="-10">
+<rest/>
+<duration>1</duration>
+<voice>1</voice>
+<type>64th</type>
+</note>
+<note default-x="192.86" default-y="-10">
+<rest/>
+<duration>8</duration>
+<voice>1</voice>
+<type>eighth</type>
+</note>
+<note default-x="220.42" default-y="15">
+<unpitched>
+<display-step>B</display-step>
+<display-octave>5</display-octave>
+</unpitched>
+<duration>16</duration>
+<instrument id="P1-I58"/>
+<voice>1</voice>
+<type>quarter</type>
+<stem>up</stem>
+<notehead>x</notehead>
+</note>
+<note default-x="261.77" default-y="-10">
+<rest/>
+<duration>16</duration>
+<voice>1</voice>
+<type>quarter</type>
+</note>
+<backup>
+<duration>61</duration>
+</backup>
+<note default-x="20.46" default-y="-45">
+<unpitched>
+<display-step>D</display-step>
+<display-octave>4</display-octave>
+</unpitched>
+<duration>4</duration>
+<instrument id="P1-I45"/>
+<voice>2</voice>
+<type>16th</type>
+<stem>down</stem>
+<notehead>x</notehead>
+</note>
+<note default-x="38.84" default-y="-30">
+<rest/>
+<duration>1</duration>
+<voice>2</voice>
+<type>64th</type>
+</note>
+<note default-x="60.75" default-y="-30">
+<rest/>
+<duration>8</duration>
+<voice>2</voice>
+<type>eighth</type>
+</note>
+<note default-x="106.96" default-y="-30">
+<rest/>
+<duration>16</duration>
+<voice>2</voice>
+<type>quarter</type>
+</note>
+<note default-x="220.42" default-y="-30">
+<rest/>
+<duration>32</duration>
+<voice>2</voice>
+<type>half</type>
+</note>
+</measure>
+<>
+<nota>
+</>
+</nota>
+</medida>
+<>
+<nota>
+</>
+</nota>
+</medida>
+<número de medida>
+<nota>
+</>
+</nota>
+</medida>
+<measure>
+<print>
+<diseño del sistema>
+<márgenes del sistema>
+</márgenes del sistema>
+</diseño del sistema>
+</impresión>
+<nota>
+</>
+</nota>
+</medida>
+<>
+<nota>
+</>
+</nota>
+</medida>
+<>
+<nota>
+</>
+</nota>
+</medida>
+<measure>
+<nota>
+</>
+</nota>
+</medida>
+<measure>
+<note default-x="42.35" default-y="-10">
+<rest measure="yes"/>
+<duration>64</duration>
+<voice>1</voice>
+</note>
+</measure>
+<measure number="11" width="99.5">
+<note default-x="42.35" default-y="-10">
+<rest measure="yes"/>
+<duration>64</duration>
+<voice>1</voice>
+</note>
+</measure>
+<measure number="12" width="99.5">
+<note default-x="42.35" default-y="-10">
+<rest measure="yes"/>
+<duration>64</duration>
+<voice>1</voice>
+</note>
+</measure>
+<measure number="13" width="99.5">
+<note default-x="42.35" default-y="-10">
+<rest measure="yes"/>
+<duration>64</duration>
+<voice>1</voice>
+</note>
+</measure>
+<measure number="14" width="99.5">
+<note default-x="42.35" default-y="-10">
+<rest measure="yes"/>
+<duration>64</duration>
+<voice>1</voice>
+</note>
+</measure>
+<measure number="15" width="99.5">
+<note default-x="42.35" default-y="-10">
+<rest measure="yes"/>
+<duration>64</duration>
+<voice>1</voice>
+</note>
+</measure>
+<measure number="16" width="133.57">
+<print new-system="yes">
+<system-layout>
+<system-margins>
+<left-margin>0</left-margin>
+<right-margin>0</right-margin>
+</system-margins>
+<system-distance>185</system-distance>
+</system-layout>
+</print>
+<note default-x="70.18" default-y="-10">
+<rest measure="yes"/>
+<duration>64</duration>
+<voice>1</voice>
+</note>
+</measure>
+<measure number="17" width="99.5">
+<note default-x="42.35" default-y="-10">
+<rest measure="yes"/>
+</nota>
+</medida>
+<>
+<nota>
+</>
+</nota>
+</medida>
+<>
+<nota>
+</>
+</nota>
+</medida>
+<measure>
+<nota>
+</>
+</nota>
+</medida>
+<>
+<nota>
+</>
+</nota>
+</medida>
+<>
+<nota>
+</>
+</nota>
+</medida>
+<measure>
+<nota>
+</>
+</nota>
+</medida>
+<measure>
+<nota>
+</>
+</nota>
+</medida>
+<>
+<nota>
+</>
+<duration>64</duration>
+<voice>1</voice>
+</note>
+</measure>
+<measure number="26" width="174.9">
+<print new-system="yes">
+<system-layout>
+<márgenes del sistema>
+</márgenes del sistema>
+</diseño del sistema>
+</impresión>
+<nota>
+</>
+</nota>
+</medida>
+<número de medida>
+<nota>
+</>
+</nota>
+</medida>
+<>
+<nota>
+</>
+</nota>
+</medida>
+<número de medida>
+<nota>
+</>
+</nota>
+</medida>
+<>
+<nota>
+</>
+</nota>
+</medida>
+<measure>
+<nota>
+</>
+</nota>
+</medida>
+<>
+<nota>
+</>
+</nota>
+<ubicación de la barra>
+</barra de compás>
+</medida>
+</pieza>
+</puntuación parcial>
