@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Nombre del repositorio. ¡DEBE SER EXACTAMENTE IGUAL AL NOMBRE DE TU REPOSITORIO EN GITHUB!
-    // **CAMBIA '/Partitura-App' por el nombre exacto de tu repositorio si es diferente.**
+    // Nombre del repositorio. Está correcto para 'Partitura-App'.
     const REPO_NAME = '/Partitura-App'; 
     
     // 1. Obtener los elementos del DOM
