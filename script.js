@@ -1,5 +1,8 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Nombre del repositorio. Está correcto para 'Partitura-App'.
+// Esta función espera a que toda la página (incluyendo las librerías externas) esté completamente cargada
+// Esto soluciona el error "Cannot read properties of undefined (reading 'OpenSheetMusicDisplay')"
+window.onload = () => {
+
+    // Nombre del repositorio. Está fijo en '/Partitura-App' para que GitHub Pages encuentre las partituras.
     const REPO_NAME = '/Partitura-App'; 
     
     // 1. Obtener los elementos del DOM
@@ -112,4 +115,4 @@ document.addEventListener('DOMContentLoaded', () => {
             doc.save(filename);
         });
     });
-});
+};
