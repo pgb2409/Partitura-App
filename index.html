@@ -2,50 +2,83 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Partitura App</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partitura Fácil y Gratuita</title>
+    <!-- Carga de Tailwind CSS para un diseño moderno y responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     
-    <script src="abcjs-basic.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        /* Configuración personalizada de Tailwind para usar la fuente Inter */
+        html { font-family: 'Inter', sans-serif; }
+    </style>
+
+    <!-- 1. OpenSheetMusicDisplay (OSMD) - La librería gratuita que lee MusicXML y dibuja la partitura -->
+    <script src="https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@1.9.2/build/esm/opensheetmusicdisplay.min.js"></script>
+
+    <!-- 2. jsPDF y su plugin - Las librerías gratuitas para exportar la partitura a PDF -->
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-plugin-svg-fork@1.0.0/dist/jspdf.plugin.svg-fork.min.js"></script>
 </head>
-<body>
+<body class="bg-gray-50 min-h-screen">
 
-    <h1>Partitura App</h1>
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+        <header class="text-center mb-10">
+            <h1 class="text-4xl font-extrabold text-indigo-700">Partitura Fácil</h1>
+            <p class="mt-2 text-gray-600">Busca, visualiza y descarga partituras profesionales con un clic.</p>
+        </header>
 
-    <div class="container">
-        
-        <div class="controls">
-            <input type="file" id="fileInput" accept=".mp3,.wav,.ogg,.musicxml,.xml,.mxl" style="padding: 10px; margin-right: 10px;">
+        <!-- Sección de Entrada de Partituras -->
+        <div id="input-section" class="bg-white p-6 rounded-xl shadow-lg border border-indigo-100 mb-8">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Paso 1: Busca tu Partitura</h2>
             
-            <button id="convertButton">
-                Convertir a Partitura
-            </button>
+            <div class="flex flex-col sm:flex-row gap-4 items-end">
+                <!-- Campo de Entrada: El alumno escribe el nombre del archivo (simplificado) -->
+                <div class="flex-grow w-full">
+                    <label for="fileNameInput" class="block text-sm font-medium text-gray-700">
+                        Escribe el nombre del archivo (Ej: mary_had_a_little_lamb.xml)
+                    </label>
+                    <input type="text" id="fileNameInput" 
+                           value="mary_had_a_little_lamb.xml"
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900">
+                </div>
+                
+                <!-- Botón de Cargar Partitura -->
+                <button id="loadButton" class="w-full sm:w-auto px-6 py-2 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition duration-150 shadow-md transform active:scale-95">
+                    Cargar Partitura
+                </button>
+            </div>
+            
+            <p class="mt-4 text-xs text-indigo-500">
+                *Nota para el desarrollador: Las partituras se buscan en la carpeta **`/partituras/`** de su sitio web.
+            </p>
         </div>
-        
-        <hr>
 
-        <textarea id="abcTextarea" rows="15" cols="80">
-X:1
-T:Ejemplo
-M:4/4
-L:1/4
-K:C
-|: CDEF | GABc | d2c2 | B2A2 :|
-        </textarea>
-        
-        <hr>
-
-        <div id="output"></div>
-        
-        <div style="margin-top: 20px; text-align: center;">
-            <button id="downloadPdfButton" style="display:none; padding: 10px 20px; font-size: 16px; cursor: pointer;">
-                Descargar Partitura (PDF)
-            </button>
+        <!-- Sección de Visualización de Partituras -->
+        <div id="output-section" class="bg-white p-6 rounded-xl shadow-lg border border-gray-200">
+            <h2 class="text-xl font-semibold text-gray-700 mb-4">Paso 2: Partitura Profesional</h2>
+            
+            <!-- Aquí se dibuja la partitura (pentagrama y notas) -->
+            <div id="output" class="music-output">
+                <!-- Mensaje inicial de bienvenida o de ayuda -->
+                <p class="text-center text-gray-500 p-8">Escribe el nombre del archivo de partitura y haz clic en "Cargar Partitura" para empezar.</p>
+            </div>
+            
+            <!-- Botón de Descarga de PDF -->
+            <div class="flex justify-center mt-6">
+                <button id="downloadPdfButton" style="display:none;" 
+                        class="px-8 py-3 bg-emerald-500 text-white font-bold rounded-lg hover:bg-emerald-600 transition duration-150 shadow-md transform active:scale-95 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mr-2">
+                        <path fill-rule="evenodd" d="M12 2.25a.75.75 0 0 1 .75.75v11.69l3.18-3.18a.75.75 0 1 1 1.06 1.06l-4.5 4.5a.75.75 0 0 1-1.06 0l-4.5-4.5a.75.75 0 1 1 1.06-1.06l3.18 3.18V3a.75.75 0 0 1 .75-.75ZM6.128 17.25H2.25A2.25 2.25 0 0 0 0 19.5v2.25A2.25 2.25 0 0 0 2.25 24h19.5A2.25 2.25 0 0 0 24 21.75V19.5A2.25 2.25 0 0 0 21.75 17.25H17.872a2.25 2.25 0 0 1-1.449-.785l-.547-.922-.093-.156a.75.75 0 0 0-1.29 0l-.093.156-.547.922a2.25 2.25 0 0 1-1.449.785Z" clip-rule="evenodd" />
+                    </svg>
+                    Descargar Partitura (PDF)
+                </button>
+            </div>
         </div>
+
     </div>
 
-    <script src="script_v2.js"></script>
+    <!-- Carga del archivo JavaScript para la lógica de la aplicación -->
     <script src="script.js"></script>
 </body>
 </html>
