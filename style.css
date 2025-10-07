@@ -1,46 +1,15 @@
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  padding: 20px;
-  background-color: #f4f4f4;
-  margin: 0;
+/* Estilos necesarios para asegurar que el área de la partitura se muestre correctamente */
+.music-output {
+    min-height: 200px; /* Altura mínima para mostrar la partitura */
+    width: 100%;
+    overflow-x: auto; /* Permite desplazamiento horizontal si la partitura es muy ancha */
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1rem;
 }
 
-h1 {
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.botones {
-  margin-bottom: 20px;
-}
-
-button {
-  padding: 10px 20px;
-  font-size: 16px;
-  margin: 5px;
-  cursor: pointer;
-  background-color: #007acc;
-  color: white;
-  border: none;
-  border-radius: 5px;
-}
-
-button:hover {
-  background-color: #005fa3;
-}
-
-input[type="file"] {
-  margin: 10px 0;
-}
-
-canvas {
-  border: 1px solid #ccc;
-  background-color: white;
-  width: 100%;
-  max-width: 800px;
-  height: 300px;
-  margin: 0 auto;
-  display: block;
+/* Estilo para el SVG generado por OSMD */
+.music-output svg {
+    display: block; /* Asegura que no haya espacios debajo del SVG */
+    margin: 0 auto; /* Centra la partitura si es más pequeña que el contenedor */
 }
