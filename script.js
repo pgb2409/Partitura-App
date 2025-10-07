@@ -1,127 +1,55 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // Nombre del repositorio. Está fijo en '/Partitura-App'
-    const REPO_NAME = '/Partitura-App'; 
-    
-    // 1. Obtener los elementos del DOM
-    const fileNameInput = document.getElementById('fileNameInput');
-    const loadButton = document.getElementById('loadButton');
-    const outputDiv = document.getElementById('output');
-    const downloadPdfButton = document.getElementById('downloadPdfButton');
+// **CORRECCIÓN CLAVE:** La variable para el visor (OSMD) debe ser global.
+let openSheetMusicDisplay; 
 
-    // Esta función maneja toda la lógica y se ejecutará solo cuando TODAS las librerías estén listas.
-    // Usamos window.onload para garantizar que librerías como OSMD ya existen.
-    const initializeApp = () => {
-        
-        // ------------------------------------------------------------------
-        // A. Inicialización del Motor de Partituras (OSMD)
-        // ------------------------------------------------------------------
-        
-        // Configuramos el motor OSMD que leerá MusicXML
-        const osmd = new window.opensheetmusicdisplay.OpenSheetMusicDisplay(outputDiv, {
+
+// **********************************************
+// 1. FUNCIÓN loadScore() - PUESTA EN EL ÁMBITO GLOBAL
+// El botón la encuentra y la ejecuta al hacer clic.
+// **********************************************
+function loadScore() {
+    console.log("loadScore() ejecutada por el clic.");
+
+    // Define la ruta del archivo MusicXML de prueba
+    // Verifica que 'partituras/sample.musicxml' exista
+    const scorePath = "partituras/sample.musicxml"; 
+    
+    if (!openSheetMusicDisplay) {
+        console.error("Error: OSMD aún no está listo. La página no ha cargado completamente.");
+        return;
+    }
+
+    // Carga la partitura
+    openSheetMusicDisplay.load(scorePath).then(
+        () => {
+            console.log("Partitura cargada y renderizada exitosamente:", scorePath);
+            openSheetMusicDisplay.render(); 
+        },
+        (error) => {
+            console.error("Error al cargar la partitura:", error);
+        }
+    );
+}
+
+
+// **********************************************
+// 2. FUNCIÓN window.onload - SE EJECUTA UNA VEZ AL CARGAR LA PÁGINA
+// Solo se encarga de inicializar la librería OSMD.
+// **********************************************
+window.onload = function() {
+    console.log("window.onload ejecutado. Iniciando OSMD.");
+    
+    try {
+        // Inicializa OSMD en el contenedor 'osmdCanvas'
+        openSheetMusicDisplay = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmdCanvas", {
+            // Opciones de configuración recomendadas
             backend: "svg", 
-            drawingParameters: "compact", // Dibujo compacto y limpio
-            set: { drawTitle: false, drawComposer: false }, 
-            disableCursor: true, 
-            autoResize: true, 
+            drawingParameters: "compact", 
+            drawTitle: true,
         });
-
-        // ------------------------------------------------------------------
-        // B. Función Central: Dibujar la Partitura desde Texto MusicXML
-        // ------------------------------------------------------------------
-
-        /**
-         * Carga el texto XML en OSMD y lo renderiza.
-         * @param {string} musicXmlText - Contenido del archivo MusicXML.
-         */
-        const renderMusic = async (musicXmlText) => {
-            try {
-                outputDiv.innerHTML = '<h2>Dibujando partitura...</h2>';
-                // Cargar y Renderizar la partitura
-                await osmd.load(musicXmlText);
-                osmd.render();
-                
-                // Si el renderizado es exitoso, mostramos el botón de descarga
-                downloadPdfButton.style.display = 'flex'; 
-
-            } catch (error) {
-                outputDiv.innerHTML = '<h2>Error: Archivo de partitura inválido o incompleto.</h2><p class="text-red-500">Asegúrate de que el contenido es MusicXML válido.</p>';
-                downloadPdfButton.style.display = 'none'; 
-                console.error("Error al renderizar partitura con OSMD:", error);
-            }
-        };
-
-        // ------------------------------------------------------------------
-        // C. Lógica del Botón "Cargar Partitura"
-        // ------------------------------------------------------------------
-
-        loadButton.addEventListener('click', async () => {
-            const fileName = fileNameInput.value.trim();
-            
-            if (!fileName || !fileName.endsWith('.xml')) {
-                outputDiv.innerHTML = '<h2 class="text-red-500">Error: Nombre de archivo inválido.</h2><p>Por favor, introduce un nombre de archivo que termine en ".xml".</p>';
-                downloadPdfButton.style.display = 'none';
-                return; 
-            }
-
-            // Esta es la acción que DEBE ocurrir al pulsar el botón
-            outputDiv.innerHTML = '<h2>Cargando partitura desde /partituras/...</h2>';
-            
-            try {
-                // Construye la ruta incluyendo el nombre del repositorio para GitHub Pages
-                const url = `${REPO_NAME}/partituras/${fileName}`; 
-                
-                // Intentar cargar el archivo
-                const response = await fetch(url); 
-                
-                if (!response.ok) {
-                     // Si el archivo no se encuentra (error 404)
-                    throw new Error(`Error ${response.status}: Archivo no encontrado. URL: ${url}`);
-                }
-
-                const musicXmlContent = await response.text();
-                
-                // Dibujamos la partitura descargada
-                renderMusic(musicXmlContent);
-            } catch (error) {
-                outputDiv.innerHTML = `<h2>¡Error al cargar!</h2><p class="text-red-500">No se pudo encontrar o cargar el archivo <strong>"${fileName}"</strong>. Revisa la consola (F12).</p>`;
-                downloadPdfButton.style.display = 'none';
-                console.error("Error al cargar el archivo:", error);
-            }
-        });
-
-        // ------------------------------------------------------------------
-        // D. Lógica para la Descarga del PDF
-        // ------------------------------------------------------------------
         
-        downloadPdfButton.addEventListener('click', () => {
-            const svgElement = outputDiv.querySelector('svg');
-            if (!svgElement) {
-                 console.error("No se encontró el SVG para descargar.");
-                 return;
-            }
-
-            const svgData = new XMLSerializer().serializeToString(svgElement);
-            
-            // Inicializa jsPDF
-            const doc = new window.jsPDF.jsPDF({ 
-                orientation: 'landscape', 
-                unit: 'mm', 
-                format: 'a4' 
-            });
-
-            // Añade el SVG al PDF
-            doc.svg(svgData, { x: 5, y: 5, width: 287, height: 200 })
-               .then(() => {
-                
-                // Genera un nombre de archivo limpio
-                const title = osmd.sheet?.TitleString || fileNameInput.value.replace('.xml', '') || 'Partitura_Descargada';
-                const filename = title.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '.pdf';
-                
-                doc.save(filename);
-            });
-        });
-    };
-    
-    // El evento 'load' garantiza que todas las librerías externas se han cargado antes de inicializar.
-    window.onload = initializeApp;
-});
+        console.log("Visor de partituras (OSMD) listo.");
+        
+    } catch (e) {
+        console.error("Fallo al inicializar OpenSheetMusicDisplay. ¿Está bien la ruta de la librería en el index.html?", e);
+    }
+};
