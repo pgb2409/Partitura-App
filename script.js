@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const outputDiv = document.getElementById('output');
     const downloadPdfButton = document.getElementById('downloadPdfButton');
 
-    // Esta función se ejecuta solo cuando todo, incluidas las librerías, está listo.
+    // Esta función maneja toda la lógica y se ejecutará solo cuando TODAS las librerías estén listas.
+    // Usamos window.onload para garantizar que librerías como OSMD ya existen.
     const initializeApp = () => {
         
         // ------------------------------------------------------------------
@@ -62,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return; 
             }
 
+            // Esta es la acción que DEBE ocurrir al pulsar el botón
             outputDiv.innerHTML = '<h2>Cargando partitura desde /partituras/...</h2>';
             
             try {
@@ -120,6 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
     
-    // Esperamos que la librería OSMD esté disponible
-    setTimeout(initializeApp, 100);
+    // El evento 'load' garantiza que todas las librerías externas se han cargado antes de inicializar.
+    window.onload = initializeApp;
 });
